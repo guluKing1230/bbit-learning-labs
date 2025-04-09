@@ -50,8 +50,8 @@ let moreNews: Article[] = [
 
 export default function News() {
     // Some helpful info on React states: https://react.dev/reference/react/useState
-    const [articles, setArticles] = useState<Article[]>(moreNews);
-    const [featuredArticle, setFeaturedArticle] = useState<Article>(mainStory);
+    const [articles, setArticles] = useState<Article[]>([]);
+    const [featuredArticle, setFeaturedArticle] = useState<Article | null>(null);
 
     // PART 4: Fetch the data from the API that the backend partner builds to
     //         populate real data to the page.
@@ -64,6 +64,24 @@ export default function News() {
             // Once completing you should be able to see news articles different from the dummy data originally provided.
 
             // Hint: this may be useful to figure how to fetch data: https://medium.com/@bhanu.mt.1501/api-calls-in-react-js-342a09d5315f
+            const response1 = await fetch('/api/news/get-featured-article', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const response2 = await fetch('/api/news/get-newsfeed', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data2 = await response2.json()
+            const data1 = await response1.json()
+            // console.log(data2)
+            setArticles(data2[0]);
+            setFeaturedArticle(data1[0]);
         }
         fetchData();
     }, [])
@@ -76,7 +94,6 @@ export default function News() {
                     <NewsFeed articles={articles} />
 
                     {/* Once you're done with Part 4, feel free to remove the span below! */}
-                    <span className="instruction">Part 4: Connect the backend and fetch real data</span>
 
                 </div>
                 <div className="hidden lg:block col-span-1 overflow-hidden border-l border-slate-300">

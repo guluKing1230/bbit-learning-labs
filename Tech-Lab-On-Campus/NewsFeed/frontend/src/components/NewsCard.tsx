@@ -20,12 +20,22 @@ function NewsCard({ article }: NewsCardProps) {
     // the right side of the screen.
 
     // Hint: Some classes in `globals.css` could help with styling
-
+    if (!article) {
+        return null
+    }
     return (
         <div className="news-card">
+            <div className="news-img-div">
+                <img
+                    src={article.image_url}
+                    alt={article.title}
+                    className="news-img"
+                />
+            </div>
             <div className="news-info">
-                {/* TODO: Remove the span below and implement a reusable NewsCard */}
-                <span className='instruction'>Part 2: Build Reusable News Card</span>
+                <h3 className="story-title">{article.title}</h3>
+                <p className="story-summary">{article.body}</p>
+                <p className="story-author">By {article.author}</p>
             </div>
         </div>
     );
